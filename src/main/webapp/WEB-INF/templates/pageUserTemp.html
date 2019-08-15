@@ -1,0 +1,43 @@
+
+<table class="table  table-bordered" xmlns:th="http://www.thymeleaf.org">
+    <thead>
+    <tr>
+        <th width="30">#</th>
+        <th width="30"><input type="checkbox"></th>
+        <th>账号</th>
+        <th>名称</th>
+        <th>邮箱地址</th>
+        <th width="100">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user,userStat : ${result.data}">
+        <td th:text="${userStat.count}"></td>
+        <td ><input type="checkbox"></td>
+        <td th:text="${user.loginacct}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>
+            <button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>
+            <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="6" align="center">
+            <ul class="pagination">
+                <li th:if="${result.page eq 1}" class="disabled"><a href="#">上一页</a></li>
+                <li th:if="${result.page ne 1}"><a href="#" th:onclick="'selectUsers('+ ${(result.page - 1)}+','+10+')'">上一页</a></li>
+
+                <li th:if="${result.pageSum ne 0}" th:each="i:${#numbers.sequence(result.pageStart,result.pageEnd)}" th:classappend="${i eq result.page}?'active':''"><a href="#" th:onclick="'selectUsers('+ ${i}+','+10+')'">[[${i}]]<span  th:if="${i eq result.page}" class="sr-only">(current)</span></a> </li>
+
+                <li th:if="${result.page eq result.pageSum or result.pageSum eq 0}" class="disabled"><a href="#">下一页</a></li>
+                <li th:if="${result.page ne result.pageSum and result.pageSum ne 0}" ><a href="#" th:onclick="'selectUsers('+${result.page + 1}+','+10+');'">下一页</a></li>
+            </ul>
+        </td>
+    </tr>
+
+    </tfoot>
+</table>
